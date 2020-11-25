@@ -1,11 +1,16 @@
 {
-  "name": "image-editor",
+  "name": "vue-meme-editor",
   "version": "0.1.0",
-  "private": true,
+  "main": "dist/vue-meme-editor.common.js",
+  "author": "ShaunLiu <y19910517@gmail.com>",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --target lib -name vue-memeEditor ./src/components/index.js",
     "lint": "vue-cli-service lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+"
   },
   "dependencies": {
     "core-js": "^3.6.5",
