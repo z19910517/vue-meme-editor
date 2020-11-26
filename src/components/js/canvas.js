@@ -23,14 +23,33 @@ export default class Canvas {
         graph.paint()
     }
 
-    moveGraph(e){
-        if(this.nowGraph !== null && this.nowGraph.dragging){
-            const {offsetX, offsetY} = e
-            this.nowGraph.moveGraph(offsetX, offsetY)
-            this.rePaint()
-            this.nowGraph.paintHover()
+
+
+    mouseMove(e){
+        if(this.nowGraph !== null){
+            if(this.nowGraph.dragging){
+                this.moveGraph(e)
+            }else{
+                this.scaleGraph()
+            }
         }
     }
+    moveGraph(e){
+        const {offsetX, offsetY} = e
+        this.nowGraph.moveGraph(offsetX, offsetY)
+        this.rePaint()
+        this.nowGraph.paintOnSelect()
+    }
+    scaleGraph(){
+    }
+
+    mouseLeave(){
+        if(this.nowGraph !== null){
+            this.nowGraph.dragging = false
+        }
+    }
+
+
     stopGraph(){
         if(this.nowGraph !== null){
             this.nowGraph.dragging = false
@@ -103,4 +122,5 @@ export default class Canvas {
         this.nowGraph.fontBorder = size
         this.rePaint()
     }
+
 }
