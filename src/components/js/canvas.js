@@ -51,20 +51,6 @@ export default class Canvas {
     judgeIsPointInPath(e){
         const {offsetX, offsetY} = e
         this.rePaint()
-        // for (const graph of this.pathList.entries()){
-        //     const {x,y,w,h} = graph
-        //     if(graph.isHover(offsetX, offsetY)){
-        //         this.ctx.beginPath()
-        //         this.ctx.rect(x,y,w,h)
-        //         this.ctx.stroke()
-        //         this.ctx.closePath()
-        //         this.nowGraph = graph
-        //         this.nowGraph.dragging = true
-        //         break
-        //     }else{
-        //         this.nowGraph = null
-        //     }
-        // }
         for(let i=this.pathList.length-1;i>=0;i--){
             const {x,y,w,h} = this.pathList[i]
             if(this.pathList[i].isHover(offsetX, offsetY)){
