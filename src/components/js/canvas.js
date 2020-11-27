@@ -15,7 +15,7 @@ export default class Canvas {
     addGraph(x=0,y=0,w=50,h=20){
         let graph = new Graph(this.ctx,x,y,w,h)
         this.pathList.push(graph)
-        graph.paint(this.ctx)
+        graph.paint()
     }
     addText(text="新增文字",x=0,y=0){
         let graph = new Text(this.ctx,x,y,this.ctx.measureText(text).width,50,text)
@@ -27,25 +27,37 @@ export default class Canvas {
 
     mouseMove(e){
         if(this.nowGraph !== null){
+            let rePaint = false
             if(this.nowGraph.dragging){
-                this.moveGraph(e)
+                this.nowGraph.moveGraph(e)
+                rePaint = true
+            }else if(this.nowGraph.rotating){
+                this.nowGraph.rotateGraph(e)
+                rePaint = true
+            }else if(this.nowGraph.resizing){
+                // this.nowGraph.rotateGraph(e)
+                rePaint = true
             }else{
-                this.scaleGraph()
+                if(this.nowGraph.isOnRotate(e)){
+                    this.canvas.style.cursor = 'pointer'
+                }else{
+                    this.canvas.style.cursor = 'default'
+                }
+            }
+
+            if(rePaint){
+                this.rePaint()
+                this.nowGraph.paintOnSelect()
             }
         }
     }
-    moveGraph(e){
-        const {offsetX, offsetY} = e
-        this.nowGraph.moveGraph(offsetX, offsetY)
-        this.rePaint()
-        this.nowGraph.paintOnSelect()
-    }
-    scaleGraph(){
-    }
+
 
     mouseLeave(){
         if(this.nowGraph !== null){
             this.nowGraph.dragging = false
+            this.nowGraph.rotating = false
+            this.nowGraph.resizing = false
         }
     }
 
@@ -53,6 +65,8 @@ export default class Canvas {
     stopGraph(){
         if(this.nowGraph !== null){
             this.nowGraph.dragging = false
+            this.nowGraph.rotating = false
+            this.nowGraph.resizing = false
             this.nowGraph.dragPath = null
         }
     }
@@ -68,19 +82,19 @@ export default class Canvas {
     }
 
     judgeIsPointInPath(e){
-        const {offsetX, offsetY} = e
         this.rePaint()
         for(let i=this.pathList.length-1;i>=0;i--){
-            const {x,y,w,h} = this.pathList[i]
-            if(this.pathList[i].isHover(offsetX, offsetY)){
-                this.ctx.beginPath()
-                this.ctx.rect(x,y,w,h)
-                this.ctx.stroke()
-                this.ctx.closePath()
+            if(this.pathList[i].isHover(e)){
                 this.nowGraph = this.pathList[i]
+                this.nowGraph.paintOnSelect()
                 this.nowGraph.dragging = true
                 break
-            }else{
+            }else if(this.pathList[i].isOnRotate(e)){
+                this.nowGraph.rotating = true
+                this.nowGraph.paintOnSelect()
+                break
+            }
+            else{
                 this.nowGraph = null
             }
         }
@@ -95,18 +109,22 @@ export default class Canvas {
         this.nowGraph.text = text
         this.nowGraph.fontResize()
         this.rePaint()
+        this.nowGraph.paintOnSelect()
     }
     fontResize(num){
         this.nowGraph.fontResize(num)
         this.rePaint()
+        this.nowGraph.paintOnSelect()
     }
     changeColor(color){
         this.nowGraph.changeColor(color)
         this.rePaint()
+        this.nowGraph.paintOnSelect()
     }
     changeFontBorder(size){
         this.nowGraph.fontBorder = size
         this.rePaint()
+        this.nowGraph.paintOnSelect()
     }
 
 }

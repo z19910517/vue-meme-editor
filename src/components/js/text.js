@@ -11,15 +11,33 @@ export default class Text extends Graph{
         this.strokeStyle = 'black'
         this.font = '900 ' + this.fontsize + 'px ' + this.fontStyle
     }
+    // paint(){
+    //     this.ctx.save()
+    //     this.ctx.translate(this.x + this.w/2, this.y + this.h/2)
+    //     this.ctx.rotate(45 * Math.PI / 180)
+    //     this.ctx.font = this.font
+    //     this.ctx.fillStyle = this.fillstyle
+    //     this.ctx.strokeStyle = this.strokeStyle
+    //     this.ctx.lineWidth = this.fontBorder
+    //     this.ctx.fillText(this.text,this.x,this.y+this.fontsize*0.9);
+    //     if(this.fontBorder !== 0){
+    //         this.ctx.strokeText(this.text,this.x,this.y+this.fontsize*0.9);
+    //     }
+    //     this.ctx.restore()
+    // }
     paint(){
+        this.ctx.save()
+        this.ctx.translate(this.x + this.w/2, this.y + this.h/2)
+        this.ctx.rotate(this.rotateDeg * Math.PI / 180)
         this.ctx.font = this.font
         this.ctx.fillStyle = this.fillstyle
         this.ctx.strokeStyle = this.strokeStyle
         this.ctx.lineWidth = this.fontBorder
-        this.ctx.fillText(this.text,this.x,this.y+this.fontsize*0.9);
+        this.ctx.fillText(this.text,-this.w/2,this.fontsize/2 * 0.8);
         if(this.fontBorder !== 0){
-            this.ctx.strokeText(this.text,this.x,this.y+this.fontsize*0.9);
+            this.ctx.strokeText(this.text,-this.w/2,this.fontsize/2 * 0.8);
         }
+        this.ctx.restore()
     }
     fontResize(size=null){
         if(size !== null){
@@ -31,10 +49,12 @@ export default class Text extends Graph{
         if(this.fontsize >= 100){
             this.fontsize = 100
         }
+        this.ctx.save()
         this.font = `900 ${this.fontsize}px ${this.fontStyle}`
         this.ctx.font = this.font
         this.w = this.ctx.measureText(this.text).width
         this.h = this.fontsize
+        this.ctx.restore()
     }
 
 }
