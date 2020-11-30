@@ -49,3 +49,14 @@ export const fontWeight = [
     'bolder',
     'lighter'
 ]
+
+export const fontColor = [
+    '#007BFF',
+    '#6C757D',
+    '#28A745',
+    '#DC3545',
+    '#FFC107',
+    '#17A2B8',
+    '#F8F9FA',
+    '##343A40'
+]

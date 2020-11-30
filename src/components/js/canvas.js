@@ -79,6 +79,9 @@ export default class Canvas {
         for (const graph of this.pathList){
             graph.paint()   
         }
+        if(this.nowGraph){
+            this.nowGraph.paintOnSelect()
+        }
     }
 
     judgeIsPointInPath(e){
@@ -105,31 +108,8 @@ export default class Canvas {
         this.ctx.drawImage(img,0,0,this.canvas.width,this.canvas.height)
     }
 
-    changeText(text){
-        this.nowGraph.text = text
-        this.nowGraph.fontResize()
+    changeFont(isDec, key, value){
+        this.nowGraph.changeFont(isDec, key, value)
         this.rePaint()
-        this.nowGraph.paintOnSelect()
     }
-    fontResize(num){
-        this.nowGraph.fontResize(num)
-        this.rePaint()
-        this.nowGraph.paintOnSelect()
-    }
-    changeFontStyle(fontStyle){
-        this.nowGraph.changeFontStyle(fontStyle)
-        this.rePaint()
-        this.nowGraph.paintOnSelect()
-    }
-    changeColor(color){
-        this.nowGraph.changeColor(color)
-        this.rePaint()
-        this.nowGraph.paintOnSelect()
-    }
-    changeFontBorder(size){
-        this.nowGraph.fontBorder = size
-        this.rePaint()
-        this.nowGraph.paintOnSelect()
-    }
-
 }

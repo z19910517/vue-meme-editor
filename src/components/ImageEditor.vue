@@ -23,7 +23,7 @@
                 <button variant="dark" @click="changeFontBorder(1)">邊框小</button>
                 <button variant="dark" @click="changeFontBorder(3)">邊框大</button>
             </div>
-            <select v-if="ctx && ctx.nowGraph && ctx.nowGraph.fontList" v-model="fontStyleSelect" @change="changeFontStyle">
+            <!-- <select v-if="ctx && ctx.nowGraph && ctx.nowGraph.fontList" v-model="fontStyleSelect" @change="changeFontStyle">
                 <option
                     v-for="item in ctx.nowGraph.fontList"
                     :key="item" 
@@ -31,7 +31,7 @@
                 >
                     {{item}}
                 </option>
-            </select>
+            </select> -->
 
 
         </div>
