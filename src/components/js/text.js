@@ -10,21 +10,8 @@ export default class Text extends Graph{
         this.fontStyle = 'Verdana'
         this.strokeStyle = 'black'
         this.font = '900 ' + this.fontsize + 'px ' + this.fontStyle
+        this.initFontStyleList()
     }
-    // paint(){
-    //     this.ctx.save()
-    //     this.ctx.translate(this.x + this.w/2, this.y + this.h/2)
-    //     this.ctx.rotate(45 * Math.PI / 180)
-    //     this.ctx.font = this.font
-    //     this.ctx.fillStyle = this.fillstyle
-    //     this.ctx.strokeStyle = this.strokeStyle
-    //     this.ctx.lineWidth = this.fontBorder
-    //     this.ctx.fillText(this.text,this.x,this.y+this.fontsize*0.9);
-    //     if(this.fontBorder !== 0){
-    //         this.ctx.strokeText(this.text,this.x,this.y+this.fontsize*0.9);
-    //     }
-    //     this.ctx.restore()
-    // }
     paint(){
         this.ctx.save()
         this.ctx.translate(this.x + this.w/2, this.y + this.h/2)
@@ -55,6 +42,47 @@ export default class Text extends Graph{
         this.w = this.ctx.measureText(this.text).width
         this.h = this.fontsize
         this.ctx.restore()
+    }
+    changeFontStyle(fontStyle){
+        this.fontStyle = fontStyle
+        this.font = '900 ' + this.fontsize + 'px ' + this.fontStyle
+        this.ctx.save()
+        this.ctx.font = this.font
+        this.w = this.ctx.measureText(this.text).width
+        this.h = this.fontsize
+        this.ctx.restore()
+    }
+    initFontStyleList(){
+        this.fontList = [
+            'Verdana',
+            'Lucida Sans',
+            'Lucida Grande',
+            'Tahoma',
+            'Georgia',
+            'Palatino',
+            'Palatino Linotype',
+            'Book Antiqua',
+            'Andika',
+            'Helvetica',
+            'Arial',
+            'Calibri',
+            'Trebuchet MS',
+            'Century Gothic',
+            'Bookman Old Style',
+            'Cambria',
+            'Candara',
+            'Garamond',
+            'Times New Roman',
+            'Brush Script MT',
+            'Microsoft YaHei',
+            'serif SimSun',
+            'cursive SimSun',
+            'sans-serif SimSun',
+            'fantasy SimSun',
+            'monospace SimSun',
+            'SimSun',
+            'Apple LiSung Light'
+        ]
     }
 
 }

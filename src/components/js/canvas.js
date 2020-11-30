@@ -116,6 +116,11 @@ export default class Canvas {
         this.rePaint()
         this.nowGraph.paintOnSelect()
     }
+    changeFontStyle(fontStyle){
+        this.nowGraph.changeFontStyle(fontStyle)
+        this.rePaint()
+        this.nowGraph.paintOnSelect()
+    }
     changeColor(color){
         this.nowGraph.changeColor(color)
         this.rePaint()

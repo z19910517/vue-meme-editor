@@ -23,6 +23,15 @@
                 <button variant="dark" @click="changeFontBorder(1)">邊框小</button>
                 <button variant="dark" @click="changeFontBorder(3)">邊框大</button>
             </div>
+            <select v-if="ctx && ctx.nowGraph && ctx.nowGraph.fontList" v-model="fontStyleSelect" @change="changeFontStyle">
+                <option
+                    v-for="item in ctx.nowGraph.fontList"
+                    :key="item" 
+                    :value="item"
+                >
+                    {{item}}
+                </option>
+            </select>
 
 
         </div>
@@ -48,6 +57,7 @@ export default {
             textTool:false,
             text:'',
             fontsize: null,
+            fontStyleSelect:null
 		}
     },
     methods:{
@@ -92,6 +102,9 @@ export default {
         },
         changeFontBorder(size){
             this.ctx.changeFontBorder(size)
+        },
+        changeFontStyle(){
+            this.ctx.changeFontStyle(this.fontStyleSelect)
         }
 
     },
