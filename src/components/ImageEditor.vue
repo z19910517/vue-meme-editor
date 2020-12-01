@@ -1,13 +1,28 @@
 <template>
     <div id="image-editor">
         
+
+        <div id="text-tool">
+
+        </div>
         <div id="section-canvas">
             <canvas @mousedown="selectGraph" @mousemove="mouseMove" @mouseup="stopGraph" @mouseleave="stopGraph" ref="canvas"></canvas>
-            <img v-show="false" :src="require('@/assets/error0.jpg')" ref="img">
+            <img v-if="backgroundImage" v-show="false" :src="backgroundImage" ref="img">
         </div>
         <div v-show="textTool">
+            <select v-model="font.family" @change="changeFontFamily">
+                <option
+                    v-for="item in grop.fontFamily"
+                    :key="item.style" 
+                    :value="item.style"
+                    :style="`font-family:${item.style}`"
+                >
+                    {{item.name}}
+                </option>
+            </select>
             <input type="number" v-model="font.size" @input="changeFontSize" min="1" max="100">
             <input type="text" v-model="font.text" @input="changeFontText">  
+            
             <div>
                 <button
                     v-for="color in grop.graphColor" 
@@ -37,9 +52,9 @@
                 </button>
             </div>
             <div>
-                <button variant="dark" @click="changeFontBorder(0)">無邊框</button>
-                <button variant="dark" @click="changeFontBorder(4)">邊框小</button>
-                <button variant="dark" @click="changeFontBorder(10)">邊框大</button>
+                <button @click="changeFontBorder(0)">無邊框</button>
+                <button @click="changeFontBorder(4)">邊框小</button>
+                <button @click="changeFontBorder(10)">邊框大</button>
             </div>
             <div>
                 <button
@@ -51,19 +66,28 @@
                 >
                 </button>
             </div>
-            
-            <select v-model="font.family" @change="changeFontFamily">
-                <option
-                    v-for="item in grop.fontFamily['zh']"
-                    :key="item.style" 
-                    :value="item.style"
+            <div>
+                <button @click="changeFontShadow(10)">有陰影</button>
+                <button @click="changeFontShadow(0)">無陰影</button>
+            </div>
+                        <div>
+                <button
+                    v-for="color in grop.graphColor" 
+                    :key="color"
+                    :style="`background-color:${color}`"
+                    @click="changeFontShadowColor(color)"
+                    class="btn-color"
                 >
-                    {{item.name}}
-                </option>
-            </select>
+                </button>
+            </div>
+
+
+            
+
 
 
         </div>
+        <input type="file" id="file-uploader" data-target="file-uploader" accept="image/*" @change="uploadImage">
         <button class="btn" @click="loadImg">
             上傳圖片
         </button>
@@ -86,6 +110,7 @@ export default {
             ctx:null,
             textTool:false,
             grop: graphOption,
+            backgroundImage: null,
             font:{
                 text: '',
                 size: null,
@@ -96,6 +121,19 @@ export default {
     methods:{
         loadImg(){
             this.ctx.loadImg(this.$refs.img)
+        },
+        uploadImage(e){
+            const image = e.target.files[0]
+            if(image){
+                const reader = new FileReader()
+                reader.readAsDataURL(image)
+                reader.onload = e => {
+                    this.backgroundImage = e.target.result
+                }
+            }else{
+                this.backgroundImag = null
+            }
+
         },
         addGraph(){
             this.ctx.addGraph()
@@ -149,6 +187,12 @@ export default {
         },
         changeStrokeColor(color){
             this.ctx.changeFont(true, 'strokeColor', color)
+        },
+        changeFontShadow(num){
+            this.ctx.changeFont(true, 'shadowBlur', num)
+        },
+        changeFontShadowColor(color){
+            this.ctx.changeFont(true, 'shadowColor', color)
         }
 
     },
@@ -178,5 +222,8 @@ export default {
     border-radius: 3px;
     border-color: black;
     border-width: 1px;
+}
+#text-tool{
+
 }
 </style>

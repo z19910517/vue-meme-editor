@@ -2,39 +2,33 @@
 // canvas 字型設定請參考
 // http://caibaojian.com/canvas/17.html
 
-export const fontFamily = {
-    'zh':[
-        {name: '新細明體', style: 'PMingLiU'},
-        {name: '細明體', style: 'MingLiU'},
-        {name: '標楷體', style: 'DFKai-SB'},
-        {name: '黑體', style: 'SimHei'},
-        {name: '宋體', style: 'SimSun'},
-        {name: '新宋體', style: 'NSimSun'},
-        {name: '仿宋', style: 'FangSong'},
-        {name: '楷體', style: 'KaiTi'},
-        {name: '仿宋_GB2312', style: 'FangSong_GB2312'},
-        {name: '楷體_GB2312', style: 'KaiTi_GB2312'},
-        {name: '微軟正黑體', style: 'Microsoft JhengHei'},
-        {name: '微軟雅黑體', style: 'Microsoft YaHei'},
-    ],
-    'en':[
-        {name: '', style: ''},
-        {name: '', style: ''},
-        {name: '', style: ''},
-        {name: '', style: ''},
-        {name: '', style: ''},
-        {name: '', style: ''},
-        {name: '', style: ''},
-        {name: '', style: ''},
-        {name: '', style: ''},
-        {name: '', style: ''},
-        {name: '', style: ''},
-    ]
-}
+export const fontFamily = [
+    {name: 'Verdana', style: 'Verdana'},
+    {name: 'Lucida Sans', style: 'Lucida Sans'},
+    {name: 'Tahoma', style: 'Tahoma'},
+    {name: 'Georgia', style: 'Georgia'},
+    {name: 'Palatino', style: 'Palatino'},
+    {name: 'Arial', style: 'Arial'},
+    {name: 'Calibri', style: 'Calibri'},
+    {name: 'Trebuchet MS', style: 'Trebuchet MS'},
+    {name: 'Century Gothic', style: 'Century Gothic'},
+    {name: 'Bookman Old Style', style: 'Bookman Old Style'},
+    {name: 'Cambria', style: 'Cambria'},
+    {name: 'Candara', style: 'Candara'},
+    {name: 'Garamond', style: 'Garamond'},
+    {name: 'Times New Roman', style: 'Times New Roman'},
+    {name: '新細明體', style: 'PMingLiU'},
+    {name: '標楷體', style: 'DFKai-SB'},
+    {name: '黑體', style: 'SimHei'},
+    {name: '宋體', style: 'SimSun'},
+    {name: '仿宋', style: 'FangSong'},
+    {name: '微軟雅黑體', style: 'Microsoft YaHei'},
+]
+
 
 export const fontStyle = [
     'normal',
-    'italic',
+    // 'italic',
     'oblique'
 ]
 
@@ -46,8 +40,8 @@ export const fontVariant = [
 export const fontWeight = [
     'normal',
     'bold',
-    'bolder',
-    'lighter'
+    // 'bolder',
+    // 'lighter'
 ]
 
 export const graphColor = [

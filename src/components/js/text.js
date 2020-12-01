@@ -17,7 +17,7 @@ export default class Text extends Graph{
             fontColor   : 'white',
             strokeColor : 'black',
             lineWidth   :  4,
-            shadowBlur  :  10,
+            shadowBlur  :  15,
             shadowColor : 'black'
         }
         this.font = `${this.fontParm.fontStyle} ${this.fontParm.fontVariant} ${this.fontParm.fontWeight} ${this.fontParm.fontSize}px ${this.fontParm.fontFamily}` 
@@ -27,8 +27,8 @@ export default class Text extends Graph{
             this.fontDeck[key] = value
         }else{
             if(key === 'fontSize'){
-                this.fontSize <= 1 ? 1   : this.fontSize
-                this.fontSize >= 1 ? 100 : this.fontSize
+                this.fontParm.fontSize = this.fontParm.fontSize <= 1   ? 1   : value
+                this.fontParm.fontSize = this.fontParm.fontSize >= 100 ? 100 : value
             }else{
                 this.fontParm[key] = value
                 if(key === 'fontText'){return}
@@ -45,12 +45,15 @@ export default class Text extends Graph{
         this.ctx.fillStyle   = this.fontDeck.fontColor
         this.ctx.strokeStyle = this.fontDeck.strokeColor
         this.ctx.lineWidth   = this.fontDeck.lineWidth
-        if(this.fontDeck.lineWidth !== 0){
+
+        if(this.fontDeck.shadowColor !== 0){
             this.ctx.shadowColor = this.fontDeck.shadowColor
             this.ctx.shadowBlur = this.fontDeck.shadowBlur
-            this.ctx.strokeText(this.fontParm.fontText,-this.w/2,this.fontParm.fontSize/2 * 0.75);
         }
-        this.ctx.shadowBlur = 0
+        if(this.fontDeck.lineWidth !== 0){
+            this.ctx.strokeText(this.fontParm.fontText,-this.w/2,this.fontParm.fontSize/2 * 0.75);
+            this.ctx.shadowBlur = 0
+        }
         this.ctx.fillText(this.fontParm.fontText,-this.w/2,this.fontParm.fontSize/2 * 0.75);
 
         this.w = this.ctx.measureText(this.fontParm.fontText).width
