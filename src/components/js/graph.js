@@ -13,6 +13,7 @@ export default class Graph {
         this.dragging = false
         this.rotating = false
         this.resizing = false
+        this.type     = 'graph'
         this.fillstyle = 'black'
     }
     isHover(e){
@@ -25,10 +26,6 @@ export default class Graph {
         let rr = this.ctx.isPointInPath(hover,offsetX,offsetY)
         this.ctx.restore()
         return rr
-        // return (this.x          <= offsetX &&
-        //         this.x + this.w >= offsetX &&
-        //         this.y          <= offsetY &&
-        //         this.y + this.h >= offsetY)
     } 
     isOnRotate(e){
         const {offsetX, offsetY} = e
@@ -40,10 +37,6 @@ export default class Graph {
         let rr = this.ctx.isPointInPath(hover,offsetX,offsetY)
         this.ctx.restore()
         return rr
-        // return (this.x + this.w/2 - 8 <= offsetX &&
-        //         this.x + this.w/2 + 8 >= offsetX &&
-        //         this.y - 15           >= offsetY &&
-        //         this.y - 31           <= offsetY)
     }
     moveGraph(e){
         const {offsetX, offsetY} = e
@@ -100,7 +93,10 @@ export default class Graph {
         this.ctx.stroke()
         this.ctx.restore()
     }
-    changeColor(color){
-        this.fillstyle = color
+    unSelectReset(){
+        this.dragging = false
+        this.rotating = false
+        this.resizing = false
+        this.dragPath = null
     }
 }

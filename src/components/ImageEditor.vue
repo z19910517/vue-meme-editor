@@ -2,36 +2,65 @@
     <div id="image-editor">
         
         <div id="section-canvas">
-            <canvas @mousedown="selectGraph" @mousemove="mouseMove" @mouseup="stopGraph" @mouseleave="mouseLeave" ref="canvas"></canvas>
+            <canvas @mousedown="selectGraph" @mousemove="mouseMove" @mouseup="stopGraph" @mouseleave="stopGraph" ref="canvas"></canvas>
             <img v-show="false" :src="require('@/assets/error0.jpg')" ref="img">
         </div>
         <div v-show="textTool">
-            <input type="number" v-model="fontsize" @input="fontResize()" min="1" max="100">
-            <input type="text" v-model="text" @input="changeText">  
+            <input type="number" v-model="font.size" @input="changeFontSize" min="1" max="100">
+            <input type="text" v-model="font.text" @input="changeFontText">  
             <div>
-                <button variant="primary" @click="changeColor('#007BFF')">藍色</button>
-                <button variant="secondary" @click="changeColor('#6C757D')">灰色</button>
-                <button variant="success" @click="changeColor('#28A745')">綠色</button>
-                <button variant="danger" @click="changeColor('#DC3545')">紅色</button>
-                <button variant="warning" @click="changeColor('#FFC107')">黃色</button>
-                <button variant="info" @click="changeColor('#17A2B8')">青色</button>
-                <button variant="light" @click="changeColor('#F8F9FA')">白色</button>
-                <button variant="dark" @click="changeColor('#343A40')">黑色</button>
+                <button
+                    v-for="color in grop.graphColor" 
+                    :key="color"
+                    :style="`background-color:${color}`"
+                    @click="changeFontColor(color)"
+                    class="btn-color"
+                >
+                </button>
+            </div>
+            <div>
+                <button
+                    v-for="style in grop.fontStyle"
+                    :key="style"
+                    @click="changeFontStyle(style)"
+                >
+                {{style}}
+                </button>
+            </div>
+            <div>
+                <button
+                    v-for="weight in grop.fontWeight"
+                    :key="weight"
+                    @click="changeFontWeight(weight)"
+                >
+                {{weight}}
+                </button>
             </div>
             <div>
                 <button variant="dark" @click="changeFontBorder(0)">無邊框</button>
-                <button variant="dark" @click="changeFontBorder(1)">邊框小</button>
-                <button variant="dark" @click="changeFontBorder(3)">邊框大</button>
+                <button variant="dark" @click="changeFontBorder(4)">邊框小</button>
+                <button variant="dark" @click="changeFontBorder(10)">邊框大</button>
             </div>
-            <!-- <select v-if="ctx && ctx.nowGraph && ctx.nowGraph.fontList" v-model="fontStyleSelect" @change="changeFontStyle">
-                <option
-                    v-for="item in ctx.nowGraph.fontList"
-                    :key="item" 
-                    :value="item"
+            <div>
+                <button
+                    v-for="color in grop.graphColor" 
+                    :key="color"
+                    :style="`background-color:${color}`"
+                    @click="changeStrokeColor(color)"
+                    class="btn-color"
                 >
-                    {{item}}
+                </button>
+            </div>
+            
+            <select v-model="font.family" @change="changeFontFamily">
+                <option
+                    v-for="item in grop.fontFamily['zh']"
+                    :key="item.style" 
+                    :value="item.style"
+                >
+                    {{item.name}}
                 </option>
-            </select> -->
+            </select>
 
 
         </div>
@@ -48,6 +77,7 @@
 </template>
 
 <script>
+import * as graphOption from './js/GraphOption'
 import Canvas from './js/canvas.js'
 export default {
 	name:"ImageEditor",
@@ -55,9 +85,12 @@ export default {
 		return{
             ctx:null,
             textTool:false,
-            text:'',
-            fontsize: null,
-            fontStyleSelect:null
+            grop: graphOption,
+            font:{
+                text: '',
+                size: null,
+                family: null,
+            }
 		}
     },
     methods:{
@@ -70,10 +103,12 @@ export default {
         selectGraph(e){
             this.ctx.judgeIsPointInPath(e)
             if(this.ctx.nowGraph){
-                if(this.ctx.nowGraph.text){
+                if(this.ctx.nowGraph.type === 'text'){
+                    const parm = this.ctx.nowGraph.getFontParm()
+                    this.font.text   = parm.fontText
+                    this.font.size   = parm.fontSize
+                    this.font.family = parm.fontFamily
                     this.textTool = true
-                    this.text = this.ctx.nowGraph.text
-                    this.fontsize = this.ctx.nowGraph.fontsize
                 }
             }else{
                 this.textTool = false
@@ -82,29 +117,38 @@ export default {
         mouseMove(e){
             this.ctx.mouseMove(e)
         },
-        mouseLeave(){
-            this.ctx.mouseLeave()
-        },
         stopGraph(){
             this.ctx.stopGraph()
         },
+
+
         addText(){
             this.ctx.addText()
         },
-        changeText(){
-            this.ctx.changeText(this.text)
+        changeFontText(){
+            this.ctx.changeFont(false, 'fontText', this.font.text)
         },
-        fontResize(){
-            this.ctx.fontResize(this.fontsize)
+        changeFontSize(){
+            this.ctx.changeFont(false, 'fontSize', this.font.size)
         },
-        changeColor(color){
-            this.ctx.changeColor(color)
+        changeFontColor(color){
+            this.ctx.changeFont(true, 'fontColor', color)
         },
         changeFontBorder(size){
-            this.ctx.changeFontBorder(size)
+            this.ctx.changeFont(true, 'lineWidth', size)
         },
-        changeFontStyle(){
-            this.ctx.changeFontStyle(this.fontStyleSelect)
+        changeFontFamily(){
+            console.log(this.font.family)
+            this.ctx.changeFont(false, 'fontFamily', this.font.family)
+        },
+        changeFontWeight(weight){
+            this.ctx.changeFont(false, 'fontWeight', weight)
+        },
+        changeFontStyle(style){
+            this.ctx.changeFont(false, 'fontStyle', style)
+        },
+        changeStrokeColor(color){
+            this.ctx.changeFont(true, 'strokeColor', color)
         }
 
     },
@@ -125,5 +169,14 @@ export default {
     display:block;
     width:200px;
     margin: 10px auto;
+}
+.btn-color{
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+    margin: 1px;
+    border-radius: 3px;
+    border-color: black;
+    border-width: 1px;
 }
 </style>

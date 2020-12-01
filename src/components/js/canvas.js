@@ -17,7 +17,7 @@ export default class Canvas {
         this.pathList.push(graph)
         graph.paint()
     }
-    addText(text="新增文字",x=0,y=0){
+    addText(text="New Text",x=0,y=0){
         let graph = new Text(this.ctx,x,y,this.ctx.measureText(text).width,50,text)
         this.pathList.push(graph)
         graph.paint()
@@ -44,7 +44,6 @@ export default class Canvas {
                     this.canvas.style.cursor = 'default'
                 }
             }
-
             if(rePaint){
                 this.rePaint()
                 this.nowGraph.paintOnSelect()
@@ -53,21 +52,9 @@ export default class Canvas {
     }
 
 
-    mouseLeave(){
-        if(this.nowGraph !== null){
-            this.nowGraph.dragging = false
-            this.nowGraph.rotating = false
-            this.nowGraph.resizing = false
-        }
-    }
-
-
     stopGraph(){
         if(this.nowGraph !== null){
-            this.nowGraph.dragging = false
-            this.nowGraph.rotating = false
-            this.nowGraph.resizing = false
-            this.nowGraph.dragPath = null
+            this.nowGraph.unSelectReset()
         }
     }
 
@@ -91,16 +78,15 @@ export default class Canvas {
                 this.nowGraph = this.pathList[i]
                 this.nowGraph.paintOnSelect()
                 this.nowGraph.dragging = true
-                break
+                return
             }else if(this.pathList[i].isOnRotate(e)){
                 this.nowGraph.rotating = true
                 this.nowGraph.paintOnSelect()
-                break
-            }
-            else{
-                this.nowGraph = null
+                return
             }
         }
+        this.nowGraph = null
+        this.rePaint()
     }
 
     loadImg(img){

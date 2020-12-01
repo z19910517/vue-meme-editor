@@ -50,7 +50,7 @@ export const fontWeight = [
     'lighter'
 ]
 
-export const fontColor = [
+export const graphColor = [
     '#007BFF',
     '#6C757D',
     '#28A745',
@@ -58,5 +58,5 @@ export const fontColor = [
     '#FFC107',
     '#17A2B8',
     '#F8F9FA',
-    '##343A40'
+    '#343A40'
 ]
