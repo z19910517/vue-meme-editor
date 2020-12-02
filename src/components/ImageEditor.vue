@@ -102,7 +102,7 @@
 
 <script>
 import * as graphOption from './js/GraphOption'
-import Canvas from './js/canvas.js'
+import Canvas from './js/ClassCanvas.js'
 export default {
 	name:"ImageEditor",
 	data(){

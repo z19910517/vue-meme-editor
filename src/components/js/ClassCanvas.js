@@ -1,5 +1,5 @@
-import Graph from "./graph"
-import Text from "./text"
+import Graph from "./ClassGraph"
+import Text from "./ClassText"
 
 export default class Canvas {
     constructor(canvas_ref, width=500, height=500){

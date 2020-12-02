@@ -1,6 +1,6 @@
 // import Graph from "./Graph";
 
-import Graph from './graph.js'
+import Graph from './ClassGraph.js'
 export default class Text extends Graph{
     constructor(ctx, x, y, w, h, text){
         super(ctx, x, y, w, h)
